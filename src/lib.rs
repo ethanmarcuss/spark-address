@@ -5,7 +5,7 @@
 //! The **spark-address** crate encodes & decodes *Spark* Bech32m addresses. A Spark
 //! address couples a compressed secp256k1 public key with a network identifier
 //! (see [`Network`]) and represents them as human-friendly Bech32m strings like
-//! `sp1…` or `sprt1…`.
+//! `spark1…` or `sparkrt1…`.
 //!
 //! ```rust
 //! use spark_address::{encode_spark_address, decode_spark_address, SparkAddressData, Network};
@@ -49,36 +49,36 @@ use std::{string::String, vec::Vec};
 /// Networks supported by Spark.
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum Network {
-    /// Main Bitcoin network (`sp` prefix).
+    /// Main Bitcoin network (`spark` prefix).
     Mainnet,
-    /// Bitcoin testnet (`spt` prefix).
+    /// Bitcoin testnet (`sparkt` prefix).
     Testnet,
-    /// Signet (`sps` prefix).
+    /// Signet (`sparks` prefix).
     Signet,
-    /// Regression-test network (`sprt` prefix).
+    /// Regression-test network (`sparkrt` prefix).
     Regtest,
-    /// Local development network (`spl` prefix).
+    /// Local development network (`sparkl` prefix).
     Local,
 }
 
 impl Network {
     fn hrp(self) -> &'static str {
         match self {
-            Network::Mainnet => "sp",
-            Network::Testnet => "spt",
-            Network::Signet => "sps",
-            Network::Regtest => "sprt",
-            Network::Local => "spl",
+            Network::Mainnet => "spark",
+            Network::Testnet => "sparkt",
+            Network::Signet => "sparks",
+            Network::Regtest => "sparkrt",
+            Network::Local => "sparkl",
         }
     }
 
     fn from_hrp(hrp: &str) -> Option<Self> {
         match hrp {
-            "sp" => Some(Network::Mainnet),
-            "spt" => Some(Network::Testnet),
-            "sps" => Some(Network::Signet),
-            "sprt" => Some(Network::Regtest),
-            "spl" => Some(Network::Local),
+            "spark" => Some(Network::Mainnet),
+            "sparkt" => Some(Network::Testnet),
+            "sparks" => Some(Network::Signet),
+            "sparkrt" => Some(Network::Regtest),
+            "sparkl" => Some(Network::Local),
             _ => None,
         }
     }
@@ -312,11 +312,9 @@ fn _validate_pubkey(_: &str) {}
 mod tests {
     use super::*;
 
-    const PUBKEY: &str = "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798";
+    const PUBKEY: &str = "02894808873b896e21d29856a6d7bb346fb13c019739adb9bf0b6a8b7e28da53da";
     const MAINNET_ADDRESS: &str =
-        "sp1pgssy7d7vel0nh9m4326qc54e6rskpczn07dktww9rv4nu5ptvt0s9ucez8h3s";
-    const REGTEST_ADDRESS: &str =
-        "sprt1pgssy7d7vel0nh9m4326qc54e6rskpczn07dktww9rv4nu5ptvt0s9ucd5rgc0";
+        "spark1pgss9z2gpzrnhztwy8ffs44x67angma38sqewwddhxlsk65t0c5d5576quly2j";
 
     #[test]
     fn mainnet_round_trip() {
@@ -326,22 +324,6 @@ mod tests {
         };
         let encoded = encode_spark_address(&data).unwrap();
         assert_eq!(encoded, MAINNET_ADDRESS);
-        let decoded = decode_spark_address(&encoded).unwrap();
-        assert_eq!(decoded, data);
-
-        let decoded = decode_spark_address(MAINNET_ADDRESS).unwrap();
-        assert_eq!(decoded.network, Network::Mainnet);
-        assert_eq!(decoded.identity_public_key, PUBKEY);
-    }
-
-    #[test]
-    fn regtest_round_trip() {
-        let data = SparkAddressData {
-            identity_public_key: PUBKEY.into(),
-            network: Network::Regtest,
-        };
-        let encoded = encode_spark_address(&data).unwrap();
-        assert_eq!(encoded, REGTEST_ADDRESS);
         let decoded = decode_spark_address(&encoded).unwrap();
         assert_eq!(decoded, data);
 

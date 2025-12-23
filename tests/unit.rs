@@ -69,7 +69,7 @@ fn wrong_key_length_decode() {
     proto.push(key_bytes.len() as u8);
     proto.extend_from_slice(&key_bytes);
 
-    let hrp = Hrp::parse("sp").unwrap();
+    let hrp = Hrp::parse("spark").unwrap();
     let addr = bech32::encode::<Bech32m>(hrp, &proto).unwrap();
 
     match decode_spark_address(&addr) {

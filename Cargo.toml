@@ -1,9 +1,8 @@
 [package]
 name        = "spark-address"
-version     = "0.1.0"
+version     = "0.2.0"
 edition     = "2021"
 license     = "MIT OR Apache-2.0"
-# New metadata for crates.io
 description = "Minimal, no_std-compatible Bech32m encoder/decoder for Spark addresses"
 readme      = "README.md"
 homepage    = "https://github.com/ethanmarcuss/spark-address"
