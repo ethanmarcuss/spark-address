@@ -1,5 +1,5 @@
 use proptest::prelude::*;
-use spark_address::{Network, SparkAddressData, decode_spark_address, encode_spark_address};
+use spark_address::{decode_spark_address, encode_spark_address, Network, SparkAddressData};
 
 #[cfg(not(feature = "validate-secp256k1"))]
 proptest! {

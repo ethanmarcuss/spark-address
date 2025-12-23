@@ -1,7 +1,7 @@
 use bech32::{self, Bech32m, Hrp};
 use hex::decode as hex_to_bytes;
 use spark_address::{
-    Network, SparkAddressData, SparkAddressError, decode_spark_address, encode_spark_address,
+    decode_spark_address, encode_spark_address, Network, SparkAddressData, SparkAddressError,
 };
 
 const PUBKEY: &str = "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798";
